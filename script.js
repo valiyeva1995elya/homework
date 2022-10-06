@@ -88,14 +88,46 @@ if (localStorage.getItem('saveUser')) {
 
 function deleteUser() {
     let saveUserCheck2 = JSON.parse(localStorage.getItem('users'))
-    console.log(saveUserCheck2)
-    for (let i = 0; i < saveUserCheck2.length - 1; i++) {
-        if (homePageName === saveUserCheck2[i].name && homePageSurname === saveUserCheck2[i].surname
-            && homehomePageAge === saveUserCheck2[i].age) {
-            saveUserCheck2.splice("saveUserCheck2[i]", 1)
-            localStorage.setItem('users', JSON.stringify(saveUserCheck2))
+    let toCheck = JSON.parse(localStorage.getItem("saveUser"))
+    let toCheck2 = JSON.parse(localStorage.getItem("myUser"))
+    
+    if (localStorage.getItem("saveUser") == true) {
+        
+        console.log(localStorage.getItem("saveUser"))
+        for (let i = 0; i < saveUserCheck2.length - 1; i++) {
+            if (toCheck.email == saveUserCheck2[i].email && toCheck.password == saveUserCheck2[i].password) {
+                saveUserCheck2.splice(i, 1)
+                localStorage.setItem('users', JSON.stringify(saveUserCheck2))
+                localStorage.removeItem("saveUser")
+            }
         }
-        document.location.href = './2.html'
+    } else if (toCheck2 == true) {
+        for (let i = 0; i < saveUserCheck2.length - 1; i++) {
+            if (toCheck2.email == saveUserCheck2[i].email && toCheck2.password == saveUserCheck2[i].password) {
+                saveUserCheck2.splice(i, 1)
+                localStorage.setItem('users', JSON.stringify(saveUserCheck2))
+                localStorage.removeItem("saveUser")
+            }
+        }
+
+
+
+
+
+
+        // if (toCheck2.email == saveUserCheck2[i].email && toCheck2.password == saveUserCheck2[i].password) {
+        //     saveUserCheck2.splice(i, 1)
+        //     localStorage.setItem('users', JSON.stringify(saveUserCheck2))
+        //     localStorage.removeItem("myUser")
+
+
+        // }if (toCheck.email == saveUserCheck2[i].email && toCheck.password == saveUserCheck2[i].password ){
+        //     saveUserCheck2.splice(i, 1)
+        //     localStorage.setItem('users', JSON.stringify(saveUserCheck2))
+        //     localStorage.removeItem("saveUser")
+        // }
+
+        // document.location.href = './2.html'
 
     }
 
