@@ -1,3 +1,4 @@
+
 function singUp() {
     let users
     if (localStorage.getItem("users")) {
@@ -58,9 +59,9 @@ function singIn() {
             if (check.checked == true) {
                 localStorage.setItem('saveUser', JSON.stringify(arrCheckUser[i]))
                 document.location.href = './3.html'
-            } else 
+            } else
                 localStorage.setItem('myUser', JSON.stringify(arrCheckUser[i]))
-                document.location.href = './3.html'
+            document.location.href = './3.html'
         }
     }
 
@@ -68,40 +69,41 @@ function singIn() {
 
 
 }
+
+
 let homePageName = document.querySelector('.hpName')
-    let homePageSurname = document.querySelector('.hpSurname')
-    let homePageAge = document.querySelector('.hpAge')
+let homePageSurname = document.querySelector('.hpSurname')
+let homePageAge = document.querySelector('.hpAge')
 if (localStorage.getItem('saveUser')) {
-    
     let homePageArr = JSON.parse(localStorage.getItem('saveUser'))
     homePageName.textContent += homePageArr.name
     homePageSurname.textContent += homePageArr.surname
     homePageAge.textContent += homePageArr.age
-}else if (localStorage.getItem('myUser')) {
+} else if (localStorage.getItem('myUser')) {
     let homePageArr = JSON.parse(localStorage.getItem('myUser'))
     homePageName.textContent += homePageArr.name
     homePageSurname.textContent += homePageArr.surname
     homePageAge.textContent += homePageArr.age
 }
-// if (localStorage.getItem('myUser')) {
-//     let homePageName = document.querySelector('.hpName')
-//     let homePageSurname = document.querySelector('.hpSurname')
-//     let homePageAge = document.querySelector('.hpAge')
-//     let homePageArr = JSON.parse(localStorage.getItem('myUser'))
-//     homePageName.textContent += homePageArr.name
-//     homePageSurname.textContent += homePageArr.surname
-//     homePageAge.textContent += homePageArr.age
-// }
+
 function deleteUser() {
-    let arrCheckUser = JSON.parse(localStorage.getItem('saveUser' || 'myUser'))
-    for (let i = 0; i < arrCheckUser.length - 1; i++) {
-        if (homePageName == arrCheckUser[i].name && homePageSurname == arrCheckUser[i].surname && homePageAge == arrCheckUser[i].age) {
-            localStorage.clear("arrCheckUser[i]")
+    let saveUserCheck2 = JSON.parse(localStorage.getItem('users'))
+    console.log(saveUserCheck2)
+    for (let i = 0; i < saveUserCheck2.length - 1; i++) {
+        if (homePageName === saveUserCheck2[i].name && homePageSurname === saveUserCheck2[i].surname
+            && homehomePageAge === saveUserCheck2[i].age) {
+            saveUserCheck2.splice("saveUserCheck2[i]", 1)
+            localStorage.setItem('users', JSON.stringify(saveUserCheck2))
         }
+        document.location.href = './2.html'
+
     }
 
-}
-function cleanUser() {
 
-    localStorage.removeItem('saveUser' || 'myUser')
+
+}
+function logOut() {
+    localStorage.removeItem('saveUser')
+    localStorage.removeItem('myUser')
+    document.location.href = './1.html'
 }
