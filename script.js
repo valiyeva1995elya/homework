@@ -15,6 +15,11 @@ function singUp() {
         age: document.querySelector('.age').value,
 
     }
+    let findUser = users.filter(person => person.email == user.email)
+            if(findUser.length > 0) {
+                alert("This email already exist")
+                return
+            }
     if (checkDate(user)) {
         users.push(user)
         localStorage.setItem("users", JSON.stringify(users))
@@ -26,6 +31,7 @@ function singUp() {
 function checkDate(user) {
     if (!validateEmail(user.email)) {
         alert("Incorrect email!")
+        return false
     } else if (user.name.length < 1 || user.surname.length < 1 || user.password.length < 1 || user.age.length < 1) {
         alert("Complete all data!")
         return false;
@@ -87,13 +93,15 @@ if (localStorage.getItem('saveUser')) {
 }
 
 function deleteUser() {
+
+    
     let saveUserCheck2 = JSON.parse(localStorage.getItem('users'))
     let toCheck = JSON.parse(localStorage.getItem("saveUser"))
     let toCheck2 = JSON.parse(localStorage.getItem("myUser"))
-    
-    if (localStorage.getItem("saveUser") == true) {
+console.log(toCheck)
+    if (toCheck == true) {
+
         
-        console.log(localStorage.getItem("saveUser"))
         for (let i = 0; i < saveUserCheck2.length - 1; i++) {
             if (toCheck.email == saveUserCheck2[i].email && toCheck.password == saveUserCheck2[i].password) {
                 saveUserCheck2.splice(i, 1)
@@ -110,7 +118,7 @@ function deleteUser() {
             }
         }
 
-
+    }
 
 
 
@@ -133,7 +141,7 @@ function deleteUser() {
 
 
 
-}
+
 function logOut() {
     localStorage.removeItem('saveUser')
     localStorage.removeItem('myUser')
