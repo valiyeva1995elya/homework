@@ -33,7 +33,7 @@
     </script>
     <script>
         let saveUserCheck = JSON.parse(localStorage.getItem('saveUser'))
-        if (saveUserCheck != null) {
+        if (Object.keys(saveUserCheck).length > 5) {
             window.location.href = './3.html'
         }
     </script>

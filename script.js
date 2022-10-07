@@ -16,10 +16,10 @@ function singUp() {
 
     }
     let findUser = users.filter(person => person.email == user.email)
-            if(findUser.length > 0) {
-                alert("This email already exist")
-                return
-            }
+    if (findUser.length > 0) {
+        alert("This email already exist")
+        return
+    }
     if (checkDate(user)) {
         users.push(user)
         localStorage.setItem("users", JSON.stringify(users))
@@ -61,19 +61,18 @@ function singIn() {
             alert("Incorrect email!")
             break
         } else if (email == arrCheckUser[i].email && password == arrCheckUser[i].password) {
-
+            localStorage.setItem('saveUser', JSON.stringify(arrCheckUser[i]))
             if (check.checked == true) {
-                localStorage.setItem('saveUser', JSON.stringify(arrCheckUser[i]))
+                let a = { checkbox: "true" }
+                let saveUserCheck = JSON.parse(localStorage.getItem('saveUser'))
+                saveUserCheck = { ...saveUserCheck, ...a };
+                localStorage.setItem('saveUser', JSON.stringify(saveUserCheck))
                 document.location.href = './3.html'
             } else
-                localStorage.setItem('myUser', JSON.stringify(arrCheckUser[i]))
-            document.location.href = './3.html'
+                localStorage.setItem('saveUser', JSON.stringify(arrCheckUser[i]))
+                document.location.href = './3.html'
         }
     }
-
-
-
-
 }
 
 
@@ -85,65 +84,18 @@ if (localStorage.getItem('saveUser')) {
     homePageName.textContent += homePageArr.name
     homePageSurname.textContent += homePageArr.surname
     homePageAge.textContent += homePageArr.age
-} else if (localStorage.getItem('myUser')) {
-    let homePageArr = JSON.parse(localStorage.getItem('myUser'))
-    homePageName.textContent += homePageArr.name
-    homePageSurname.textContent += homePageArr.surname
-    homePageAge.textContent += homePageArr.age
 }
 
 function deleteUser() {
-
-    
-    let saveUserCheck2 = JSON.parse(localStorage.getItem('users'))
-    let toCheck = JSON.parse(localStorage.getItem("saveUser"))
-    let toCheck2 = JSON.parse(localStorage.getItem("myUser"))
-console.log(toCheck)
-    if (toCheck == true) {
-
-        
-        for (let i = 0; i < saveUserCheck2.length - 1; i++) {
-            if (toCheck.email == saveUserCheck2[i].email && toCheck.password == saveUserCheck2[i].password) {
-                saveUserCheck2.splice(i, 1)
-                localStorage.setItem('users', JSON.stringify(saveUserCheck2))
-                localStorage.removeItem("saveUser")
-            }
-        }
-    } else if (toCheck2 == true) {
-        for (let i = 0; i < saveUserCheck2.length - 1; i++) {
-            if (toCheck2.email == saveUserCheck2[i].email && toCheck2.password == saveUserCheck2[i].password) {
-                saveUserCheck2.splice(i, 1)
-                localStorage.setItem('users', JSON.stringify(saveUserCheck2))
-                localStorage.removeItem("saveUser")
-            }
-        }
-
-    }
-
-
-
-
-        // if (toCheck2.email == saveUserCheck2[i].email && toCheck2.password == saveUserCheck2[i].password) {
-        //     saveUserCheck2.splice(i, 1)
-        //     localStorage.setItem('users', JSON.stringify(saveUserCheck2))
-        //     localStorage.removeItem("myUser")
-
-
-        // }if (toCheck.email == saveUserCheck2[i].email && toCheck.password == saveUserCheck2[i].password ){
-        //     saveUserCheck2.splice(i, 1)
-        //     localStorage.setItem('users', JSON.stringify(saveUserCheck2))
-        //     localStorage.removeItem("saveUser")
-        // }
-
-        // document.location.href = './2.html'
-
-    }
-
-
-
+    let users = JSON.parse(localStorage.getItem("users"))
+    let saveUser = JSON.parse(localStorage.getItem("saveUser"))
+    localStorage.setItem("users", JSON.stringify(
+        users.filter(user => user.email != saveUser.email)
+    ))
+    logOut()
+}
 
 function logOut() {
     localStorage.removeItem('saveUser')
-    localStorage.removeItem('myUser')
     document.location.href = './1.html'
 }
