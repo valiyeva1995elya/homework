@@ -32,6 +32,12 @@ function checkDate(user) {
     if (!validateEmail(user.email)) {
         alert("Incorrect email!")
         return false
+    } if (!validatePassword(user.password)) {
+        alert("Incorrect password!")
+        return false
+    } if (!validateAge(user.age)) {
+        alert("Incorrect age!")
+        return false
     } else if (user.name.length < 1 || user.surname.length < 1 || user.password.length < 1 || user.age.length < 1) {
         alert("Complete all data!")
         return false;
@@ -47,6 +53,18 @@ const validateEmail = (email) => {
         .toLowerCase()
         .match(
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        );
+};
+const validatePassword = (password) => {
+    return String(password)
+        .match(
+            /^\S*(?=.*[A-Z])(?=.*[0-9])(?=.*[/$!*])[a-zA-Z0-9*/$!]{8,}\S*$/g
+        );
+};
+const validateAge = (age) => {
+    return String(age)
+        .match(
+            /^[1-9][0-9]$|^[1-9]$|^100$/
         );
 };
 
@@ -70,7 +88,7 @@ function singIn() {
                 document.location.href = './3.html'
             } else
                 localStorage.setItem('saveUser', JSON.stringify(arrCheckUser[i]))
-                document.location.href = './3.html'
+            document.location.href = './3.html'
         }
     }
 }
