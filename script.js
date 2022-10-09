@@ -117,3 +117,45 @@ function logOut() {
     localStorage.removeItem('saveUser')
     document.location.href = './1.html'
 }
+
+let bl = document.querySelector(".edit-data")
+let bl2 = document.querySelector(".back-block")
+let b = document.querySelector("body")
+
+function cancelBtn() {
+    bl2.style.display = "none";
+
+}
+function editProf() {
+    bl2.style.display = "block";
+    bl.style.display = "block";
+    bl2.style.backgroundColor = "rgb(196, 193, 193, 0.5)"
+
+
+}
+function saveNewData() {
+    let saveUser = JSON.parse(localStorage.getItem("saveUser"))
+    let users = JSON.parse(localStorage.getItem("users"))
+    let edName = document.querySelector("#edName").value
+    let edSurname = document.querySelector("#edSurname").value
+    let edAge = document.querySelector("#edAge").value
+
+    saveUser.name = (homePageName.textContent = edName)
+    saveUser.surname = (homePageSurname.textContent = edSurname)
+    saveUser.age = (homePageAge.textContent = edAge)
+    if (!validateAge(saveUser.age)) {
+        alert("Incorrect age!")
+        return false
+    }
+    for (let i = 0; i < users.length; i++) {
+        if (saveUser.email == users[i].email) {
+            users[i].name = saveUser.name
+            users[i].surname = saveUser.surname
+            users[i].age = saveUser.age
+        }
+    }
+    localStorage.setItem("saveUser", JSON.stringify(saveUser))
+    localStorage.setItem("users", JSON.stringify(users))
+    bl2.style.display = "none";
+
+}

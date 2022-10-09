@@ -12,19 +12,91 @@
 <body>
     <div class="block">
         <p>Home page</p>
-        <div class="block-info">
-            <p class="acc hpName">Name:</p>
-            <p class="acc hpSurname">Surname:</p>
-            <p class="acc hpAge">Age:</p>
+        <div class="block-info2">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <p>Personal data</p>
+                <button onclick="editProf()" class="btn2">Edit profile</button>
+            </div>
+            <div class="block-infoAcc">
+                <p class="acc hpName">Name:</p>
+                <p class="acc hpSurname">Surname:</p>
+                <p class="acc hpAge">Age:</p>
+            </div>
+            <div class="btn-block">
+                <button onclick="logOut()" class="btn2">Log out</button>
+                <button onclick="deleteUser()" class="btn2">Delete my acc</button>
+            </div>
         </div>
-        <button onclick="logOut()" class="btn2">Log out</button>
-        <button onclick="deleteUser()" class="btn2">Delete my acc</button>
+        <p>Other users</p>
+        <table>
+            <tr>
+                <th>email</th>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
 
 
-
+        <div class="back-block">
+            <div class="edit-data">
+                <p>Name</p>
+                <input id="edName" type="text">
+                <p>Surname</p>
+                <input id="edSurname" type="text">
+                <p>Age</p>
+                <input id="edAge" type="number">
+                <button onclick="saveNewData()" class="btn mt-20">Save</button><br>
+                <button onclick="cancelBtn()" class="btn mt-20">Cancel</button>
+            </div>
+        </div>
 
     </div>
     <script src="./script.js">
+    </script>
+    <script>
+
+        let users = JSON.parse(localStorage.getItem("users"))
+
+        let td = document.querySelectorAll("td")
+        console.log(users)
+
+        for (let i = 0; i < users.length; i++) {
+
+
+            td[0].textContent += users[i].email,
+                td[1].textContent += users[i].name,
+                td[2].textContent += users[i].surname,
+                td[3].textContent += users[i].age
+
+
+        }
+
+
     </script>
 </body>
 
