@@ -28,37 +28,21 @@
             </div>
         </div>
         <p>Other users</p>
-        <table>
+
+        <div class="block-su">
+            <input id="block-su" type="text">
+            <button onclick="searchUser()">search</button>
+        </div>
+        <br>
+        <table class="users-list">
             <tr>
+                <th>ID</th>
                 <th>email</th>
                 <th>Name</th>
                 <th>Surname</th>
                 <th>Age</th>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+
         </table>
 
 
@@ -80,20 +64,58 @@
     </script>
     <script>
 
-        let users = JSON.parse(localStorage.getItem("users"))
-
-        let td = document.querySelectorAll("td")
-        console.log(users)
-
-        for (let i = 0; i < users.length; i++) {
+        getOtherUsers()
 
 
-            td[0].textContent += users[i].email,
-                td[1].textContent += users[i].name,
-                td[2].textContent += users[i].surname,
-                td[3].textContent += users[i].age
+        function getOtherUsers() {
+            let users = JSON.parse(localStorage.getItem("users"), function (key, value) {
+                if (key == "password") return undefined;
+                return value;
+            })
 
+            let currentUser = JSON.parse(localStorage.getItem("saveUser"));
+            let otherUsers = users.filter(user => user.email != currentUser.email);
+            let listElement = document.querySelector(".users-list")
+            otherUsers.forEach((element, index) => {
+                listElement.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${element.email}</td>
+                    <td>${element.name}</td>
+                    <td>${element.surname}</td>
+                    <td>${element.age}</td>
+                    </tr>
+                    `
 
+            });
+
+        }
+
+        function searchUser() {
+            let users = JSON.parse(localStorage.getItem("users"));
+            let findUser = document.querySelector("#block-su");
+            let otherUsers = users.filter(user => user.name == findUser.value || user.surname == findUser.value);
+            console.log(otherUsers)
+            let listElement = document.querySelector(".users-list")
+            otherUsers.forEach((element, index) => {
+                listElement.innerHTML = `
+                <tr>
+                    <th>ID</th>
+                    <th>email</th>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Age</th>
+                </tr>
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${element.email}</td>
+                    <td>${element.name}</td>
+                    <td>${element.surname}</td>
+                    <td>${element.age}</td>
+                </tr>
+                `
+            })
+            
         }
 
 
