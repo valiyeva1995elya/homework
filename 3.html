@@ -34,7 +34,7 @@
             <button onclick="searchUser()">search</button>
         </div>
         <br>
-        <table class="users-list">
+        <table class="users-list" id="table">
             <tr>
                 <th>ID</th>
                 <th>email</th>
@@ -92,20 +92,24 @@
         }
 
         function searchUser() {
+            let table = document.getElementById("table")
+            while (table.rows.length > 1) {
+                table.deleteRow(1);
+            }
             let users = JSON.parse(localStorage.getItem("users"));
             let findUser = document.querySelector("#block-su");
-            let otherUsers = users.filter(user => user.name == findUser.value || user.surname == findUser.value);
-            console.log(otherUsers)
+            let currentUser = JSON.parse(localStorage.getItem("saveUser"));
+            let otherUsers = users.filter(user => user.email != currentUser.email);
+            let result = []
+            otherUsers.forEach((user) => {
+                if (!(user.name.search(findUser.value) == -1 && user.surname.search(findUser.value) == -1)) {
+                    result.push(user)
+                }
+            })
             let listElement = document.querySelector(".users-list")
-            otherUsers.forEach((element, index) => {
-                listElement.innerHTML = `
-                <tr>
-                    <th>ID</th>
-                    <th>email</th>
-                    <th>Name</th>
-                    <th>Surname</th>
-                    <th>Age</th>
-                </tr>
+            result.forEach((element, index) => {
+                listElement.innerHTML += `
+               
                 <tr>
                     <td>${index + 1}</td>
                     <td>${element.email}</td>
@@ -115,7 +119,7 @@
                 </tr>
                 `
             })
-            
+
         }
 
 
