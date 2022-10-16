@@ -124,6 +124,7 @@ let b = document.querySelector("body")
 
 function cancelBtn() {
     bl2.style.display = "none";
+    
 
 }
 function editProf() {
@@ -140,13 +141,19 @@ function saveNewData() {
     let edSurname = document.querySelector("#edSurname").value
     let edAge = document.querySelector("#edAge").value
 
-    saveUser.name = (homePageName.textContent = edName)
-    saveUser.surname = (homePageSurname.textContent = edSurname)
-    saveUser.age = (homePageAge.textContent = edAge)
-    if (!validateAge(saveUser.age)) {
-        alert("Incorrect age!")
-        return false
-    }
+    if(edName == ""){
+        saveUser.name = (homePageName.textContent = saveUser.name)
+    }else saveUser.name =(homePageName.textContent = edName)
+    
+    if(edSurname == ""){
+        saveUser.surname = (homePageSurname.textContent = saveUser.surname)
+    }else saveUser.surname =(homePageSurname.textContent = edSurname)
+    if(edAge == ""){
+        saveUser.age = (homePageAge.textContent = saveUser.age)
+    }else saveUser.age =(homePageAge.textContent = edAge)
+
+    
+   
     for (let i = 0; i < users.length; i++) {
         if (saveUser.email == users[i].email) {
             users[i].name = saveUser.name

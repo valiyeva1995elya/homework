@@ -10,6 +10,32 @@
 </head>
 
 <body>
+    <header>
+        <div class="btn-header">
+            <button class="btn2" onclick="pageColor()">Page color</button>
+            <button class="btn2" onclick="colorText()"> Text color</button>
+
+
+        </div>
+        <div class="color-block">
+            <div class="colors">
+
+                <button onclick="saveNewColor()" class="btn mt-20">Save</button>
+                <button onclick="cancelBtn()" class="btn mt-20">Cancel</button><br>
+                <input class="mt-20" type="radio" name="one" style="background-color : transparent"
+                    onclick="changeColor()"><span>none</span><br>
+            </div>
+        </div>
+        <div class="color-block2">
+            <div class="colors-text">
+
+                <button onclick="saveNewColor()" class="btn mt-20">Save</button>
+                <button onclick="cancelBtn()" class="btn mt-20">Cancel</button><br>
+                <input class="mt-20" type="radio" name="one" style="color : black"
+                    onclick="changeColor()"><span>black</span><br>
+            </div>
+        </div>
+    </header>
     <div class="block">
         <p>Home page</p>
         <div class="block-info2">
@@ -29,8 +55,8 @@
         </div>
         <p>Other users</p>
 
-        <div class="block-su">
-            <input id="block-su" type="text">
+        <div class="block-search">
+            <input id="block-search" type="text">
             <button onclick="searchUser()">search</button>
         </div>
         <br>
@@ -97,7 +123,7 @@
                 table.deleteRow(1);
             }
             let users = JSON.parse(localStorage.getItem("users"));
-            let findUser = document.querySelector("#block-su");
+            let findUser = document.querySelector("#block-search");
             let currentUser = JSON.parse(localStorage.getItem("saveUser"));
             let otherUsers = users.filter(user => user.email != currentUser.email);
             let result = []
@@ -122,6 +148,108 @@
 
         }
 
+        let blc = document.querySelector(".colors")
+        let blt = document.querySelector(".colors-text")
+        let bl3 = document.querySelector(".color-block")
+        let bl4 = document.querySelector(".color-block2")
+
+        function cancelBtn() {
+            bl3.style.display = "none";
+
+        }
+        function colorText() {
+            bl4.style.display = "block";
+            blt.style.display = "block";
+            bl4.style.backgroundColor = "rgb(196, 193, 193, 0.5)"
+            getColors2()
+
+        }
+        function pageColor() {
+            bl3.style.display = "block";
+            blc.style.display = "block";
+            bl3.style.backgroundColor = "rgb(196, 193, 193, 0.5)"
+            getColors()
+
+        }
+        let colors = [];
+        let colors2 = [];
+
+
+
+        function getColors() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    JSON.parse(xhr.response).data.forEach(element => {
+                        colors.push(element);
+
+                    });
+                    makeColorBlocks()
+                    
+                }
+            }
+            xhr.open("GET", "https://reqres.in/api/unknown>", true);
+            xhr.send();
+        }
+        function makeColorBlocks() {
+            let elColors = document.querySelector(".colors");
+            colors.forEach(element => {
+                elColors.innerHTML += `
+      <input type = "radio" name = "one" class= "color" style ="background-color : ${element.color}" onclick = "changeColor()"> <span style="color:${element.color}">${element.name}</span><br>  
+      `
+            }
+
+            )
+        }
+        function changeColor(color) {
+            let elColorSpace = document.querySelector("body")
+            elColorSpace.style.backgroundColor = event.path[0].style.backgroundColor;
+            localStorage.setItem("color", JSON.stringify(event.path[0].style.backgroundColor))
+        }
+
+        function getColors2() {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    JSON.parse(xhr.response).data.forEach(element => {
+                        colors2.push(element);
+
+                    });
+                    makeColorBlocks2()
+                    
+                }
+            }
+            xhr.open("GET", "https://reqres.in/api/unknown>", true);
+            xhr.send();
+        }
+       
+        function makeColorBlocks2() {
+            let elColors2 = document.querySelector(".colors-text");
+            colors2.forEach(element => {
+                elColors2.innerHTML += `
+      <input type = "radio" name = "one" class= "color" style ="color : ${element.color}" onclick = "changeColor2()"> <span style="color:${element.color}">${element.name}</span><br>  
+      `
+            }
+
+            )
+        }
+
+        function changeColor2(color) {
+            let elColorSpace = document.querySelector("body")
+            elColorSpace.style.color = event.path[0].style.color;
+            localStorage.setItem("color2", JSON.stringify(event.path[0].style.color))
+        }
+        function saveNewColor() {
+            bl3.style.display = "none";
+            bl4.style.display = "none";
+        }
+
+        let bodyBG = document.querySelector("body")
+        let colorBG = JSON.parse(localStorage.getItem("color"))
+        let colorTx = JSON.parse(localStorage.getItem("color2"))
+console.log(colorBG)
+        bodyBG.style.backgroundColor = colorBG
+        bodyBG.style.color = colorTx
 
     </script>
 </body>
