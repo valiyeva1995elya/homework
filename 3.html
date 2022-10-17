@@ -23,7 +23,7 @@
                 <button onclick="saveNewColor()" class="btn mt-20">Save</button>
                 <button onclick="cancelBtn()" class="btn mt-20">Cancel</button><br>
                 <input class="mt-20" type="radio" name="one" style="background-color : transparent"
-                    onclick="changeColor()"><span>none</span><br>
+                    onclick="changeColor()"><span style="color : black">none</span><br>
             </div>
         </div>
         <div class="color-block2">
@@ -31,8 +31,7 @@
 
                 <button onclick="saveNewColor()" class="btn mt-20">Save</button>
                 <button onclick="cancelBtn()" class="btn mt-20">Cancel</button><br>
-                <input class="mt-20" type="radio" name="one" style="color : black"
-                    onclick="changeColor()"><span>black</span><br>
+                <input class="mt-20" type="radio" name="one"  style="color : black" onclick="changeColor2()"><span style="color : black">black</span><br>
             </div>
         </div>
     </header>
@@ -86,9 +85,88 @@
         </div>
 
     </div>
-    <script src="./script.js">
-    </script>
+
     <script>
+        // if (!localStorage.getItem("saveUser")) {
+        //     window.location.href = '1.html'
+        // }else {
+        //     if (!JSON.parse(localStorage.getItem("saveUser")).checkbox) {
+        //         logOut()
+        //     }
+        // }
+
+        let homePageName = document.querySelector('.hpName')
+        let homePageSurname = document.querySelector('.hpSurname')
+        let homePageAge = document.querySelector('.hpAge')
+        if (localStorage.getItem('saveUser')) {
+            let homePageArr = JSON.parse(localStorage.getItem('saveUser'))
+            homePageName.textContent += homePageArr.name
+            homePageSurname.textContent += homePageArr.surname
+            homePageAge.textContent += homePageArr.age
+        }
+
+        function deleteUser() {
+            let users = JSON.parse(localStorage.getItem("users"))
+            let saveUser = JSON.parse(localStorage.getItem("saveUser"))
+            localStorage.setItem("users", JSON.stringify(
+                users.filter(user => user.email != saveUser.email)
+            ))
+            logOut()
+        }
+
+        function logOut() {
+            localStorage.removeItem('saveUser')
+            document.location.href = './1.html'
+        }
+
+        let bl = document.querySelector(".edit-data")
+        let bl2 = document.querySelector(".back-block")
+        let b = document.querySelector("body")
+
+        function cancelBtn() {
+            bl2.style.display = "none";
+
+
+        }
+        function editProf() {
+            bl2.style.display = "block";
+            bl.style.display = "block";
+            bl2.style.backgroundColor = "rgb(196, 193, 193, 0.5)"
+
+
+        }
+        function saveNewData() {
+            let saveUser = JSON.parse(localStorage.getItem("saveUser"))
+            let users = JSON.parse(localStorage.getItem("users"))
+            let edName = document.querySelector("#edName").value
+            let edSurname = document.querySelector("#edSurname").value
+            let edAge = document.querySelector("#edAge").value
+
+            if (edName == "") {
+                saveUser.name = (homePageName.textContent = saveUser.name)
+            } else saveUser.name = (homePageName.textContent = edName)
+
+            if (edSurname == "") {
+                saveUser.surname = (homePageSurname.textContent = saveUser.surname)
+            } else saveUser.surname = (homePageSurname.textContent = edSurname)
+            if (edAge == "") {
+                saveUser.age = (homePageAge.textContent = saveUser.age)
+            } else saveUser.age = (homePageAge.textContent = edAge)
+
+
+
+            for (let i = 0; i < users.length; i++) {
+                if (saveUser.email == users[i].email) {
+                    users[i].name = saveUser.name
+                    users[i].surname = saveUser.surname
+                    users[i].age = saveUser.age
+                }
+            }
+            localStorage.setItem("saveUser", JSON.stringify(saveUser))
+            localStorage.setItem("users", JSON.stringify(users))
+            bl2.style.display = "none";
+
+        }
 
         getOtherUsers()
 
@@ -185,7 +263,7 @@
 
                     });
                     makeColorBlocks()
-                    
+
                 }
             }
             xhr.open("GET", "https://reqres.in/api/unknown>", true);
@@ -216,13 +294,13 @@
 
                     });
                     makeColorBlocks2()
-                    
+
                 }
             }
             xhr.open("GET", "https://reqres.in/api/unknown>", true);
             xhr.send();
         }
-       
+
         function makeColorBlocks2() {
             let elColors2 = document.querySelector(".colors-text");
             colors2.forEach(element => {
@@ -247,7 +325,7 @@
         let bodyBG = document.querySelector("body")
         let colorBG = JSON.parse(localStorage.getItem("color"))
         let colorTx = JSON.parse(localStorage.getItem("color2"))
-console.log(colorBG)
+
         bodyBG.style.backgroundColor = colorBG
         bodyBG.style.color = colorTx
 
